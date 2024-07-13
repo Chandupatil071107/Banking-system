@@ -1,0 +1,115 @@
+class Bank:
+    def __init__(self, name):
+        self.name = name
+        self.customers = []
+
+    def add_customer(self, customer):
+        self.customers.append(customer)
+
+    def remove_customer(self, customer):
+        self.customers.remove(customer)
+
+    def list_customers(self):
+        return self.customers
+
+    def search_customer(self, customer_name):
+        for customer in self.customers:
+            if customer.name == customer_name:
+                return customer
+        return None
+
+    def __str__(self):
+        return f"Bank: {self.name}"
+
+class Customer:
+    def __init__(self, name, account_number, balance=0):
+        self.name = name
+        self.account_number = account_number
+        self.balance = balance
+
+    def deposit(self, amount):
+        self.balance += amount
+
+    def withdraw(self, amount):
+        if self.balance >= amount:
+            self.balance -= amount
+        else:
+            print("Insufficient balance")
+
+    def __str__(self):
+        return f"Customer Name: {self.name}, Account Number: {self.account_number}, Balance: {self.balance}"
+
+# Creating a bank
+my_bank = Bank("MyBank")
+
+# Function to add a customer
+def add_customer():
+    name = input("Enter customer name: ")
+    account_number = input("Enter account number: ")
+    balance = float(input("Enter initial balance: "))
+    customer = Customer(name, account_number, balance)
+    my_bank.add_customer(customer)
+    print(f"Customer {name} added successfully!")
+
+# Function to perform a deposit
+def deposit():
+    name = input("Enter customer name: ")
+    customer = my_bank.search_customer(name)
+    if customer:
+        amount = float(input("Enter deposit amount: "))
+        customer.deposit(amount)
+        print(f"{amount} deposited to {name}'s account.")
+    else:
+        print("Customer not found!")
+
+# Function to perform a withdrawal
+def withdraw():
+    name = input("Enter customer name: ")
+    customer = my_bank.search_customer(name)
+    if customer:
+        amount = float(input("Enter withdrawal amount: "))
+        customer.withdraw(amount)
+        print(f"{amount} withdrawn from {name}'s account.")
+    else:
+        print("Customer not found!")
+
+# Function to list all customers
+def list_customers():
+    print("Customers in", my_bank)
+    for customer in my_bank.list_customers():
+        print(customer)
+
+# Function to search for a customer
+def search_customer():
+    name = input("Enter customer name: ")
+    search_result = my_bank.search_customer(name)
+    if search_result:
+        print("Found customer:", search_result)
+    else:
+        print("Customer not found")
+
+# Main loop
+while True:
+    print("\n1. Add Customer")
+    print("2. Deposit")
+    print("3. Withdraw")
+    print("4. List Customers")
+    print("5. Search Customer")
+    print("6. Exit")
+    
+    choice = input("Enter your choice: ")
+
+    if choice == '1':
+        add_customer()
+    elif choice == '2':
+        deposit()
+    elif choice == '3':
+        withdraw()
+    elif choice == '4':
+        list_customers()
+    elif choice == '5':
+        search_customer()
+    elif choice == '6':
+        break
+    else:
+        print("Invalid choice! Please try again.")
